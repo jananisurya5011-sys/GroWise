@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp" android:height="56dp" android:viewportWidth="24" android:viewportHeight="24">
+
+    <!-- Ground Drop Shadow -->
+    <path android:fillColor="#40000000" android:pathData="M12,21 C17,21 21,20 21,19 C21,18 17,17 12,17 C7,17 3,18 3,19 C3,20 7,21 12,21 Z"/>
+
+    <!-- Soil Base (Dark Brown for 3D Depth) -->
+    <path android:fillColor="#5D4037" android:pathData="M3,13 L12,18 L21,13 L21,16 L12,21 L3,16 Z"/>
+
+    <!-- Soil Top Plot (Rich Brown) -->
+    <path android:fillColor="#795548" android:pathData="M12,8 L21,13 L12,18 L3,13 Z"/>
+
+    <!-- Crop Sprout 1 (Back Center) -->
+    <path android:fillColor="#4CAF50" android:pathData="M12,10 C11,8 9,9 9,7 C10,8 12,8 12,10 Z"/>
+    <path android:fillColor="#2E7D32" android:pathData="M12,10 C13,8 15,9 15,7 C14,8 12,8 12,10 Z"/>
+
+    <!-- Crop Sprout 2 (Center Left) -->
+    <path android:fillColor="#81C784" android:pathData="M8,12 C7,10 5,11 5,9 C6,10 8,10 8,12 Z"/>
+    <path android:fillColor="#388E3C" android:pathData="M8,12 C9,10 11,11 11,9 C10,10 8,10 8,12 Z"/>
+
+    <!-- Crop Sprout 3 (Center Right) -->
+    <path android:fillColor="#81C784" android:pathData="M16,12 C15,10 13,11 13,9 C14,10 16,10 16,12 Z"/>
+    <path android:fillColor="#388E3C" android:pathData="M16,12 C17,10 19,11 19,9 C18,10 16,10 16,12 Z"/>
+
+    <!-- Crop Sprout 4 (Front Center) -->
+    <path android:fillColor="#4CAF50" android:pathData="M12,14 C11,12 9,13 9,11 C10,12 12,12 12,14 Z"/>
+    <path android:fillColor="#2E7D32" android:pathData="M12,14 C13,12 15,13 15,11 C14,12 12,12 12,14 Z"/>
+
+</vector>

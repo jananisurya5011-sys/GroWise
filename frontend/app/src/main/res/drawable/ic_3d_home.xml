@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp" android:height="56dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- Ground Drop Shadow -->
+    <path android:fillColor="#40000000" android:pathData="M12,21 C17,21 21,20 21,19 C21,18 17,17 12,17 C7,17 3,18 3,19 C3,20 7,21 12,21 Z"/>
+
+    <!-- House Body (Premium White/Grey) -->
+    <path android:fillColor="#F5F5F5" android:pathData="M4,11 L20,11 L20,19 L4,19 Z"/>
+
+    <!-- House Roof (Golden Yellow) -->
+    <path android:fillColor="#F5B041" android:pathData="M2,11 L22,11 L12,4 Z"/>
+    <!-- Roof Shadow/Depth -->
+    <path android:fillColor="#D4AC0D" android:pathData="M2,11 L22,11 L22,12 L2,12 Z"/>
+
+    <!-- Front Door (Terracotta Primary) -->
+    <path android:fillColor="#E05733" android:pathData="M10,14 L14,14 L14,19 L10,19 Z"/>
+
+    <!-- Left Glass Window (Cyan) -->
+    <path android:fillColor="#81D4FA" android:pathData="M5.5,13 L8.5,13 L8.5,16 L5.5,16 Z"/>
+    <!-- Right Glass Window (Cyan) -->
+    <path android:fillColor="#81D4FA" android:pathData="M15.5,13 L18.5,13 L18.5,16 L15.5,16 Z"/>
+</vector>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "221527945716",
+    "project_id": "growise-fc94d",
+    "storage_bucket": "growise-fc94d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221527945716:android:af95272d6d7d7a6576c9a1",
+        "android_client_info": {
+          "package_name": "com.simats.growise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsqxsmhWOmZ2Lfdxh1qWnP-A-SnLjMWL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

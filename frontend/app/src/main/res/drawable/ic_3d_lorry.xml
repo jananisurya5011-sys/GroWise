@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp" android:height="56dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- Ground Drop Shadow (Extended) -->
+    <path android:fillColor="#40000000" android:pathData="M12,22 C20,22 24,21 24,20 C24,19 20,18 12,18 C4,18 0,19 0,20 C0,21 4,22 12,22 Z"/>
+
+    <!-- Massive Steel Container (Dark Slate) -->
+    <path android:fillColor="#34495E" android:pathData="M8,4 L23,4 L23,16 L8,16 Z"/>
+    <!-- Container Highlight -->
+    <path android:fillColor="#465C71" android:pathData="M8,3 L23,3 L23,4 L8,4 Z"/>
+    <!-- Branding Stripe (Golden Yellow) -->
+    <path android:fillColor="#F5B041" android:pathData="M8,9 L23,9 L23,11 L8,11 Z"/>
+
+    <!-- Tall Driver Cabin (Terracotta Primary) -->
+    <path android:fillColor="#E05733" android:pathData="M2,7 L8,7 L8,16 L2,16 Z"/>
+    <!-- Cabin Roof Highlight -->
+    <path android:fillColor="#FF7A59" android:pathData="M2,6 L8,6 L8,7 L2,7 Z"/>
+    <!-- Cabin Window (Glass) -->
+    <path android:fillColor="#E0E0E0" android:pathData="M3,8 L7,8 L7,12 L3,12 Z"/>
+
+    <!-- Front Wheel -->
+    <path android:fillColor="#212121" android:pathData="M5,16 A2.5,2.5 0 1,0 5,21 A2.5,2.5 0 1,0 5,16 Z"/>
+    <path android:fillColor="#BDBDBD" android:pathData="M5,17.5 A1,1 0 1,0 5,19.5 A1,1 0 1,0 5,17.5 Z"/>
+    <!-- Middle Wheel -->
+    <path android:fillColor="#212121" android:pathData="M14,16 A2.5,2.5 0 1,0 14,21 A2.5,2.5 0 1,0 14,16 Z"/>
+    <path android:fillColor="#BDBDBD" android:pathData="M14,17.5 A1,1 0 1,0 14,19.5 A1,1 0 1,0 14,17.5 Z"/>
+    <!-- Rear Wheel -->
+    <path android:fillColor="#212121" android:pathData="M20,16 A2.5,2.5 0 1,0 20,21 A2.5,2.5 0 1,0 20,16 Z"/>
+    <path android:fillColor="#BDBDBD" android:pathData="M20,17.5 A1,1 0 1,0 20,19.5 A1,1 0 1,0 20,17.5 Z"/>
+</vector>

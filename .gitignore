@@ -1,0 +1,48 @@
+# =========================
+# Python
+# =========================
+venv/
+.env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Environment files
+# =========================
+.env
+backend/.env
+frontend/.env
+website/.env
+
+# =========================
+# Firebase Secrets
+# =========================
+backend/firebase_key.json
+firebase_key.json
+**/firebase_key.json
+
+# =========================
+# Node
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db

@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="56dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Ground Drop Shadow -->
+    <path android:fillColor="#40000000" android:pathData="M4,20 C4,21.1 20,21.1 20,20 Z"/>
+
+    <!-- Blue Crate Body -->
+    <path android:fillColor="#1565C0" android:pathData="M5,10 L19,10 L19,20 L5,20 Z"/>
+
+    <!-- Blue Crate Rim/Lid -->
+    <path android:fillColor="#1976D2" android:pathData="M3,8 L21,8 L21,11 L3,11 Z"/>
+
+    <!-- Tomatoes/Red Crops sticking out of box -->
+    <path android:fillColor="#E53935" android:pathData="M7,8 C7,4 11,4 12,8 C13,4 17,4 17,8 Z"/>
+    <path android:fillColor="#C62828" android:pathData="M10,8 C10,3 14,3 14,8 Z"/>
+
+    <!-- Yellow Warning Label on Box -->
+    <path android:fillColor="#FFF176" android:pathData="M9,13 L15,13 L15,17 L9,17 Z"/>
+
+    <!-- Text Lines on Label -->
+    <path android:strokeColor="#F57F17" android:strokeWidth="1" android:pathData="M10,14.5 L14,14.5 M10,15.5 L13,15.5"/>
+</vector>

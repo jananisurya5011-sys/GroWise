@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp" android:height="56dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- Ground Drop Shadow -->
+    <path android:fillColor="#40000000" android:pathData="M12,22 C16,22 19,21 19,20 C19,19 16,18 12,18 C8,18 5,19 5,20 C5,21 8,22 12,22 Z"/>
+
+    <!-- Delivery Cargo Box (Terracotta Primary) -->
+    <path android:fillColor="#E05733" android:pathData="M4,10 L10,10 L10,16 L4,16 Z"/>
+    <!-- Cargo Box Highlight/Lid -->
+    <path android:fillColor="#FF7A59" android:pathData="M4,9 L10,9 L10,10 L4,10 Z"/>
+
+    <!-- Scooter Base Chassis (Dark Grey) -->
+    <path android:fillColor="#2C3E50" android:pathData="M9,15 L19,15 L19,17 L9,17 Z"/>
+    <!-- Scooter Front Shield -->
+    <path android:fillColor="#E05733" android:pathData="M16,8 L20,13 L19,17 L16,17 Z"/>
+
+    <!-- Scooter Seat (Black) -->
+    <path android:fillColor="#111111" android:pathData="M9,13 L15,13 L15,15 L9,15 Z"/>
+
+    <!-- Handlebars and Mirror -->
+    <path android:fillColor="#9E9E9E" android:pathData="M15,9 L17,6 L18,6 L18,7 L16,10 Z"/>
+    <path android:fillColor="#E0E0E0" android:pathData="M17,5 A1,1 0 1,0 17,7 A1,1 0 1,0 17,5 Z"/>
+
+    <!-- Rear Wheel -->
+    <path android:fillColor="#212121" android:pathData="M8,16 A2.5,2.5 0 1,0 8,21 A2.5,2.5 0 1,0 8,16 Z"/>
+    <path android:fillColor="#BDBDBD" android:pathData="M8,17.5 A1,1 0 1,0 8,19.5 A1,1 0 1,0 8,17.5 Z"/>
+
+    <!-- Front Wheel -->
+    <path android:fillColor="#212121" android:pathData="M18,16 A2.5,2.5 0 1,0 18,21 A2.5,2.5 0 1,0 18,16 Z"/>
+    <path android:fillColor="#BDBDBD" android:pathData="M18,17.5 A1,1 0 1,0 18,19.5 A1,1 0 1,0 18,17.5 Z"/>
+</vector>
