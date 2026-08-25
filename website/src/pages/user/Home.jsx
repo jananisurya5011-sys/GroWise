@@ -6,6 +6,8 @@ import gsap from 'gsap';
 import { Navigation, MapPin, CloudRain, Clock, User, Image as ImageIcon, Heart, CheckCircle } from 'lucide-react';
 import { calculateExpiryStatus } from '../../utils/inventoryHelpers';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 const FullScreenLoader = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', width: '100%', position: 'fixed', top: 0, left: 0, backgroundColor: '#fff', zIndex: 9999 }}>
@@ -152,21 +154,21 @@ const UHomeScreen = () => {
             if (data.success) {
               navigate('/weather-details', { state: { weatherData: data, lat, lon } });
             } else {
-              alert("Weather data unavailable.");
+              notify.warning("Weather data unavailable.");
             }
           } catch (e) {
-            alert("Error fetching weather.");
+            notify.error("Error fetching weather.");
           } finally {
             setIsLocating(false);
           }
         },
         () => {
-          alert("Please enable GPS permissions to sync location.");
+          notify.warning("Please enable GPS permissions to sync location.");
           setIsLocating(false);
         }
       );
     } else {
-      alert("Geolocation is not supported by your browser.");
+      notify.info("Geolocation is not supported by your browser.");
       setIsLocating(false);
     }
   };
@@ -192,7 +194,7 @@ const UHomeScreen = () => {
     } catch (err) {
       console.error(err);
       setFavoriteFarmers(previousFavs);
-      alert("Failed to update favorites. Please check your connection.");
+      notify.error("Failed to update favorites. Please check your connection.");
     }
   };
 

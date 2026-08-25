@@ -10,6 +10,8 @@ import { collection, query, orderBy, onSnapshot, addDoc, setDoc, doc, deleteDoc,
 import { db } from '../../utils/firebase';
 import { getEffectivePrice } from '../../utils/pricing';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 const FullScreenLoader = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', width: '100%', position: 'fixed', top: 0, left: 0, backgroundColor: '#fff', zIndex: 9999 }}>
@@ -99,7 +101,7 @@ const FarmerMenu = () => {
     } catch (error) {
       console.error("Error toggling favorite:", error);
       setIsFavorite(previousState);
-      alert("Failed to update favorites. Please check your connection.");
+      notify.error("Failed to update favorites. Please check your connection.");
     }
   };
 
@@ -194,7 +196,7 @@ const FarmerMenu = () => {
       fetchReviews();
     } catch (e) {
       console.error(e);
-      alert("Error submitting review.");
+      notify.error("Error submitting review.");
     } finally {
       setIsSubmittingReview(false);
     }
@@ -205,7 +207,7 @@ const FarmerMenu = () => {
       await apiClient.post('/api/reviews/delete', { id });
       fetchReviews();
     } catch (e) {
-      alert("Error deleting review.");
+      notify.error("Error deleting review.");
     }
   };
 
@@ -256,7 +258,7 @@ const FarmerMenu = () => {
       navigate(`/deals/${farmerEmail}`);
     } catch (e) {
       console.error(e);
-      alert("Failed to send inquiry.");
+      notify.error("Failed to send inquiry.");
     } finally {
       setIsSendingInquiry(false);
     }

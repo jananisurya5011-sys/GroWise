@@ -65,4 +65,7 @@ uritemplate==4.2.0
 urllib3==2.7.0
 websockets==16.1
 Werkzeug==3.1.8
-
+sentence-transformers
+torch
+numpy
+scikit-learn

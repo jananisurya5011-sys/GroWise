@@ -44,8 +44,7 @@ const AIChatPanel = ({ isOpen, onClose, user, isMobile }) => {
       const res = await apiClient.post('/api/chat/general-chat', {
         message,
         history: history.slice(-10), // Send last 10 messages for context
-        role: user?.role || 'user',
-        language: 'English'
+        role: user?.role || 'user'
       });
 
       if (res.data.success) {

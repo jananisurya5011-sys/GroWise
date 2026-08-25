@@ -95,10 +95,23 @@ data class PendingDriverResponse(
 // --- AI CROP DOCTOR DATA MODELS ---
 data class CropDiagnosisResponse(
     val success: Boolean,
-    val disease: String,
-    val confidence: Double,
+    val disease: String? = null,
+    val confidence: Double? = null,
     val imagePath: String? = null,
-    val remedy: String
+    val remedy: String? = null,
+    val data: GeminiDiagnosisData? = null,
+    val error: String? = null
+)
+
+data class GeminiDiagnosisData(
+    val disease: String? = null,
+    val confidence: Double? = null,
+    val organicTreatment: List<String>? = null,
+    val chemicalTreatment: List<String>? = null,
+    val prevention: List<String>? = null,
+    val symptoms: List<String>? = null,
+    val causes: String? = null,
+    val remedy: String? = null
 )
 
 // --- SMART CULTIVATION SCHEDULER DATA MODELS ---
@@ -252,11 +265,12 @@ data class SaveDiagnosisRequest(
 )
 
 data class DiagnosticRecord(
-    val disease: String,
-    val remedy: String,
-    val imagePath: String,
-    val mode: String,
-    val date: String
+    val id: String? = null,
+    val disease: String? = null,
+    val remedy: String? = null,
+    val imagePath: String? = null,
+    val mode: String? = null,
+    val date: String? = null
 )
 
 data class DiagnosisHistoryResponse(
@@ -652,7 +666,6 @@ data class Transaction(
 data class AiChatRequest(
     val message: String,
     val history: List<AiHistoryMessage>,
-    val language: String,
     val role: String
 )
 

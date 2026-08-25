@@ -6,6 +6,9 @@ import { ArrowLeft, Tractor, Plus, MapPin, Loader2, UploadCloud, Phone, Navigati
 import gsap from 'gsap';
 import { getDistance } from '../../utils/geoUtils';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+import { confirmDialog } from '../../components/common/ConfirmationDialog';
+
 
 
 
@@ -140,12 +143,12 @@ const FarmerRentalHub = () => {
           setIsLocating(false);
         },
         (error) => {
-          alert("Could not fetch location. Please enable GPS permissions.");
+          notify.warning("Could not fetch location. Please enable GPS permissions.");
           setIsLocating(false);
         }
       );
     } else {
-      alert("Geolocation is not supported by your browser.");
+      notify.info("Geolocation is not supported by your browser.");
       setIsLocating(false);
     }
   };
@@ -153,7 +156,7 @@ const FarmerRentalHub = () => {
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     if (!formData.equipmentName || !formData.ratePerDay) {
-      alert("Please fill required fields");
+      notify.warning("Please fill required fields");
       return;
     }
     
@@ -173,17 +176,17 @@ const FarmerRentalHub = () => {
       const data = await response.json();
       
       if (data.success) {
-        alert("Equipment added!");
+        notify.success("Equipment added!");
         setFormData({ equipmentName: '', category: 'Tractors', ratePerHour: '', ratePerDay: '', latitude: '', longitude: '' });
         setSelectedFile(null);
         setPreviewUrl(null);
         setActiveTab('my-items');
       } else {
-        alert(data.message || "Failed to add.");
+        notify.error(data.message || "Failed to add.");
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("Network error.");
+      notify.error("Network error.");
     } finally {
       setIsSubmitting(false);
     }
@@ -199,7 +202,9 @@ const FarmerRentalHub = () => {
   };
 
   const deleteItem = async (itemId) => {
-    if (!window.confirm("Are you sure you want to delete this equipment?")) return;
+    const isConfirmed = await confirmDialog("Delete Equipment?", "Are you sure you want to delete this equipment?");
+    if (!isConfirmed) return;
+    
     try {
       const { data } = await apiClient.post('/api/rental/delete', { itemId });
       if (data.success) fetchMyItems();
@@ -286,7 +291,7 @@ const FarmerRentalHub = () => {
                             window.open(`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`, '_blank');
                           }
                         } else {
-                          alert("Exact coordinates not available for this equipment.");
+                          notify.info("Exact coordinates not available for this equipment.");
                         }
                       }}
                       style={{ width: '100%', padding: '14px', backgroundColor: '#e8f5e9', color: '#2e7d32', border: '1px solid #c8e6c9', borderRadius: '16px', fontSize: '15px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s' }}

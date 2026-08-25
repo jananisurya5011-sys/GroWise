@@ -44,6 +44,8 @@ import androidx.compose.ui.res.painterResource
 import com.simats.growise.data.model.DiagnosticRecord
 import com.simats.growise.data.network.RetrofitClient
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
 import java.text.SimpleDateFormat
 import java.util.Locale
 import coil.compose.AsyncImage // NEW
@@ -219,16 +221,55 @@ fun FDiagnosticHistory(onBackClick: () -> Unit = {}) {
                                 fontSize = 14.sp
                             )
                         }
+                        
+                        // Swipe action handling
+                        if (offsetX < -100f) {
+                            var showConfirm by remember { mutableStateOf(false) }
+                            if (!showConfirm) {
+                                showConfirm = true
+                            }
+                            
+                            if (showConfirm) {
+                                AlertDialog(
+                                    onDismissRequest = { 
+                                        showConfirm = false
+                                        offsetX = 0f
+                                    },
+                                    title = { Text("Delete Log?") },
+                                    text = { Text("Remove this diagnostic record from ledger?") },
+                                    confirmButton = {
+                                        TextButton(onClick = {
+                                            showConfirm = false
+                                            coroutineScope.launch(Dispatchers.IO) {
+                                                try {
+                                                    record.id?.let {
+                                                        RetrofitClient.apiService.deleteDiagnosisHistory(it, userEmail)
+                                                        withContext(Dispatchers.Main) {
+                                                            historyList = historyList.filter { item -> item.id != it }
+                                                        }
+                                                    }
+                                                } catch (e: Exception) {}
+                                            }
+                                        }) { Text("Delete", color = Color.Red) }
+                                    },
+                                    dismissButton = {
+                                        TextButton(onClick = { 
+                                            showConfirm = false
+                                            offsetX = 0f
+                                        }) { Text("Cancel") }
+                                    }
+                                )
+                            }
+                        }
 
-                        // Draggable Foreground Card
                         Box(
                             modifier = Modifier
                                 .offset { IntOffset(animatedOffset.roundToInt(), 0) }
                                 .pointerInput(Unit) {
                                     detectHorizontalDragGestures(
                                         onDragEnd = {
-                                            if (offsetX < -250f) { // Swipe threshold to delete
-                                                offsetX = -1500f // Swipe out animation
+                                            if (offsetX < -250f) {
+                                                offsetX = -1500f
                                                 historyList = historyList.filter { it != record }
 
                                                 // Save to local deleted cache so it does not reappear on reload
@@ -253,12 +294,12 @@ fun FDiagnosticHistory(onBackClick: () -> Unit = {}) {
                                 tts = tts,
                                 isPlaying = playingRecordId == "${record.date}_${record.disease}",
                                 onTogglePlay = {
-                                    val id = "${record.date}_${record.disease}"
+                                    val id = record.id ?: "${record.date}_${record.disease}"
                                     if (playingRecordId == id) {
                                         tts?.stop()
                                         playingRecordId = null
                                     } else {
-                                        tts?.speak("${record.disease}. Solution: ${record.remedy}", TextToSpeech.QUEUE_FLUSH, null, id)
+                                        tts?.speak("${record.disease ?: "Unknown"}. Solution: ${record.remedy ?: ""}", TextToSpeech.QUEUE_FLUSH, null, id)
                                     }
                                 }
                             )
@@ -272,16 +313,17 @@ fun FDiagnosticHistory(onBackClick: () -> Unit = {}) {
 
 @Composable
 fun HistoryCard(record: DiagnosticRecord, tts: TextToSpeech?, isPlaying: Boolean, onTogglePlay: () -> Unit) {
-    val isOnline = record.mode.equals("Online", ignoreCase = true)
+    val isOnline = record.mode?.equals("Online", ignoreCase = true) ?: false
 
     // Formatting the date
     val displayDate = try {
+        val dateStr = record.date ?: ""
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-        val formatter = SimpleDateFormat("MMM dd, yyyy • hh:mm a", Locale.getDefault())
-        val dateObj = parser.parse(record.date.substringBefore("."))
-        dateObj?.let { formatter.format(it) } ?: record.date
+        val formatter = SimpleDateFormat("MMM dd, yyyy \u2022 hh:mm a", Locale.getDefault())
+        val dateObj = parser.parse(dateStr.substringBefore("."))
+        dateObj?.let { formatter.format(it) } ?: dateStr
     } catch (e: Exception) {
-        record.date.take(10)
+        record.date?.take(10) ?: "Unknown Date"
     }
 
     Card(
@@ -292,14 +334,9 @@ fun HistoryCard(record: DiagnosticRecord, tts: TextToSpeech?, isPlaying: Boolean
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             // Updated image string resolution rules ensuring absolute physical storage file parsing
-            val imageUrl: Any = if (isOnline) {
-                val filename = record.imagePath.substringAfterLast("/").substringAfterLast("\\")
-                val cleanBase =
-                    com.simats.growise.data.network.RetrofitClient.BASE_URL.removeSuffix("/")
-                "$cleanBase/api/crop-doctor/serve-image/$filename"
-            } else {
-                java.io.File(record.imagePath) // Parse path as actual file type to ensure loading success
-            }
+            val filename = record.imagePath?.substringAfterLast("/")?.substringAfterLast("\\") ?: ""
+            val cleanBase = com.simats.growise.data.network.RetrofitClient.BASE_URL.removeSuffix("/")
+            val imageUrl = "$cleanBase/api/crop-doctor/serve-image/$filename"
 
             Box(
                 modifier = Modifier
@@ -354,7 +391,7 @@ fun HistoryCard(record: DiagnosticRecord, tts: TextToSpeech?, isPlaying: Boolean
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = record.mode,
+                        text = record.mode ?: "Unknown",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = com.simats.growise.ui.theme.TextMuted
@@ -371,7 +408,7 @@ fun HistoryCard(record: DiagnosticRecord, tts: TextToSpeech?, isPlaying: Boolean
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = record.disease,
+                text = record.disease ?: "Unknown Disease",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = com.simats.growise.ui.theme.TerracottaPrimary,
@@ -380,10 +417,10 @@ fun HistoryCard(record: DiagnosticRecord, tts: TextToSpeech?, isPlaying: Boolean
 
             // Updated rule parameters to conditionally handle offline mode content isolation limits
             if (isOnline) {
-                if (record.remedy.isNotEmpty()) {
+                if (!record.remedy.isNullOrEmpty()) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = record.remedy,
+                        text = record.remedy ?: "",
                         fontSize = 13.sp,
                         color = com.simats.growise.ui.theme.TextDark,
                         lineHeight = 20.sp

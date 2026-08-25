@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import Logo from '../../components/Logo';
 import { Mail, Phone, Building2, Edit3, X, Save, Camera, Navigation, MapPin, Calendar, AtSign, Home, Briefcase, Plus, Trash2, CheckCircle2 } from 'lucide-react';
 import { reverseGeocode } from '../../utils/geoUtils';
+import notify from '../../services/NotificationService';
+
 
 const AgriLoadingSpinner = () => (
   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1.5s linear infinite' }}>
@@ -119,7 +121,7 @@ const Profile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error("Global save failed", error);
-      alert("Failed to update profile details.");
+      notify.error("Failed to update profile details.");
     } finally {
       setIsSaving(false);
     }
@@ -139,7 +141,7 @@ const Profile = () => {
       setAddresses(newAddressesArray);
     } catch (error) {
       console.error("Address save failed", error);
-      alert("Failed to sync addresses with database.");
+      notify.error("Failed to sync addresses with database.");
     } finally {
       setIsSaving(false);
     }
@@ -217,7 +219,7 @@ const Profile = () => {
   const fetchGPS = () => {
     setGpsLoading(true);
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+      notify.info("Geolocation is not supported by your browser.");
       setGpsLoading(false);
       return;
     }
@@ -230,7 +232,7 @@ const Profile = () => {
         setGpsLoading(false);
       },
       () => {
-        alert("Permission denied. (Lat/Lon will default to 0.0)");
+        notify.info("Permission denied. (Lat/Lon will default to 0.0)");
         setGpsLoading(false);
       }
     );

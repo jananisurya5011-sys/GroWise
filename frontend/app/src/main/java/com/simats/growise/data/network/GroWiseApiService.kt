@@ -27,11 +27,34 @@ import retrofit2.Response
             @Part("language") language: okhttp3.RequestBody
         ): CropDiagnosisResponse
 
+        @Multipart
+        @POST("api/crop-doctor/ai-diagnose")
+        suspend fun uploadCropImageAI(
+            @Part image: MultipartBody.Part,
+            @Part("language") language: okhttp3.RequestBody
+        ): CropDiagnosisResponse
+
+        @Multipart
         @POST("api/crop-doctor/save-diagnosis")
-        suspend fun saveDiagnosis(@Body request: SaveDiagnosisRequest): StandardBackendResponse
+        suspend fun saveDiagnosis(
+            @Part("email") email: okhttp3.RequestBody,
+            @Part("disease") disease: okhttp3.RequestBody,
+            @Part("remedy") remedy: okhttp3.RequestBody,
+            @Part("diagnosisType") diagnosisType: okhttp3.RequestBody,
+            @Part("language") language: okhttp3.RequestBody,
+            @Part("details") details: okhttp3.RequestBody,
+            @Part("confidence") confidence: okhttp3.RequestBody,
+            @Part file: MultipartBody.Part
+        ): StandardBackendResponse
 
         @POST("api/crop-doctor/history")
         suspend fun fetchDiagnosisHistory(@Body request: EmailRequest): DiagnosisHistoryResponse
+
+        @retrofit2.http.DELETE("api/crop-doctor/history/{docId}")
+        suspend fun deleteDiagnosisHistory(
+            @retrofit2.http.Path("docId") docId: String,
+            @retrofit2.http.Query("email") email: String
+        ): StandardBackendResponse
 
         @POST("api/cultivation/generate")
         suspend fun generateRoadmap(@Body request: CultivationRequest): CultivationResponse

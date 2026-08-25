@@ -69,6 +69,8 @@ const SectionCard = ({ title, icon: Icon, children }) => (
 import { CreditCard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 const CropPoolPaymentOverlay = ({ step, totalPrice, walletBal, onCancel, onComplete, onAddMoney }) => {
   const navigate = useNavigate();
@@ -368,7 +370,7 @@ const CropPoolCard = () => {
             if (type === 'joinDrop') setJoinDropAddress(addr);
           }
         },
-        () => alert("Location permission denied.")
+        () => notify.info("Location permission denied.")
       );
     }
   };
@@ -393,10 +395,10 @@ const CropPoolCard = () => {
         setQuoteData(res.data);
         setShowDisclaimerDialog(true);
       } else {
-        alert("Failed to calculate secure fare.");
+        notify.error("Failed to calculate secure fare.");
       }
     } catch (e) {
-      alert("Network Error");
+      notify.error("Network Error");
     } finally {
       setIsProcessing(false);
     }
@@ -479,7 +481,7 @@ const CropPoolCard = () => {
       const res = await apiClient.post('/api/logistics/delete-pool', { orderId, email: user?.email });
       if (res.data.success) fetchPools();
     } catch (e) {
-      alert("Network Error");
+      notify.error("Network Error");
     }
   };
 
@@ -487,16 +489,16 @@ const CropPoolCard = () => {
     try {
       const res = await apiClient.post('/api/orders/cancel_order', { orderId });
       if (res.data.success) {
-        alert("Order Cancelled. Escrow Refunded.");
+        notify.info("Order Cancelled. Escrow Refunded.");
         fetchPools();
       } else {
-        alert("Failed to cancel. Funds might be locked.");
+        notify.error("Failed to cancel. Funds might be locked.");
       }
     } catch (e) {
       if (e.response?.status === 400) {
-        alert("Cannot Cancel: Funds locked in Escrow.");
+        notify.error("Cannot Cancel: Funds locked in Escrow.");
       } else {
-        alert("Network Error");
+        notify.error("Network Error");
       }
     }
   };
@@ -521,10 +523,10 @@ const CropPoolCard = () => {
         setJoinQuoteData(res.data);
         setShowJoinInvoice(true);
       } else {
-        alert("Failed to calculate dynamic detour.");
+        notify.error("Failed to calculate dynamic detour.");
       }
     } catch (e) {
-      alert("Network Error");
+      notify.error("Network Error");
     } finally {
       setIsQuotingJoin(false);
     }

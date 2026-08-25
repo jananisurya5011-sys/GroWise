@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 // Auth & Routing
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotificationProvider from './components/common/NotificationProvider';
 
 // Public Pages
 import Splash from './pages/Splash';
@@ -28,6 +29,7 @@ import DriverStandardDelivery from './pages/driver/DriverStandardDelivery';
 import FarmerProfile from './pages/farmer/Profile';
 import FarmerHome from './pages/farmer/Home';
 import FarmerDiagnose from './pages/farmer/Diagnose';
+import FarmerAIDiagnose from './pages/farmer/AIDiagnose';
 import FarmerListProduct from './pages/farmer/ListProduct';
 import FarmerRentalHub from './pages/farmer/RentalHub';
 import FarmerSmartCultivation from './pages/farmer/SmartCultivation';
@@ -79,6 +81,7 @@ function AnimatedRoutes() {
         <Route path="/home/farmer" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerHome /></Layout></ProtectedRoute>} />
         <Route path="/profile/farmer" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerProfile /></Layout></ProtectedRoute>} />
         <Route path="/farmer/diagnose" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerDiagnose /></Layout></ProtectedRoute>} />
+        <Route path="/farmer/ai-diagnose" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerAIDiagnose /></Layout></ProtectedRoute>} />
         <Route path="/farmer/inventory" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerListProduct /></Layout></ProtectedRoute>} />
         <Route path="/farmer/rental" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerRentalHub /></Layout></ProtectedRoute>} />
         <Route path="/farmer/cultivation" element={<ProtectedRoute allowedRoles={['farmer']}><Layout><FarmerSmartCultivation /></Layout></ProtectedRoute>} />

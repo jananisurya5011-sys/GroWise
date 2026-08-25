@@ -11,7 +11,6 @@ const AiChatModal = ({ isOpen, onClose }) => {
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [language, setLanguage] = useState('English');
   
   const overlayRef = useRef(null);
   const containerRef = useRef(null);
@@ -54,7 +53,6 @@ const AiChatModal = ({ isOpen, onClose }) => {
       const { data } = await apiClient.post('/api/chat-ai/general-chat', {
         message: input,
         history: formattedHistory,
-        language: language,
         role: user?.role || 'farmer'
       });
 
@@ -107,15 +105,7 @@ const AiChatModal = ({ isOpen, onClose }) => {
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <select 
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              style={{ padding: '6px 12px', borderRadius: '12px', border: '1px solid #ddd', fontSize: '13px', outline: 'none' }}
-            >
-              <option value="English">English</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Tamil">Tamil</option>
-            </select>
+
             <button onClick={handleClose} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
               <X size={24} color="#555" />
             </button>

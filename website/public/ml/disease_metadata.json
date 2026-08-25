@@ -1,0 +1,114 @@
+{
+  "Background_Noise": {
+    "symptoms": ["Not a recognizable plant or crop leaf."],
+    "causes": ["Camera pointed at a non-plant object.", "Poor lighting or blurry image."],
+    "organicTreatment": ["None"],
+    "chemicalTreatment": ["None"],
+    "prevention": ["Ensure the crop leaf is clearly visible and well-lit."]
+  },
+  "Pepper__bell___Bacterial_spot": {
+    "symptoms": ["Small, yellow-green spots on young leaves.", "Spots turn brown or black with a yellow halo.", "Severely affected leaves may drop prematurely."],
+    "causes": ["Xanthomonas campestris bacteria.", "High humidity and warm temperatures."],
+    "organicTreatment": ["Copper-based organic fungicides.", "Remove and destroy infected plant parts."],
+    "chemicalTreatment": ["Copper hydroxide or copper sulfate sprays.", "Streptomycin agricultural sprays (where permitted)."],
+    "prevention": ["Use certified disease-free seeds.", "Ensure adequate plant spacing for airflow.", "Avoid overhead watering."]
+  },
+  "Pepper__bell___healthy": {
+    "symptoms": ["Vibrant green leaves.", "No visible spots or discoloration.", "Firm stems and healthy growth."],
+    "causes": ["Optimal growing conditions."],
+    "organicTreatment": ["Maintain regular schedule."],
+    "chemicalTreatment": ["Maintain regular schedule."],
+    "prevention": ["Continue current watering and fertilizing practices."]
+  },
+  "Potato___Early_blight": {
+    "symptoms": ["Brown or black spots on older leaves.", "Spots often have concentric rings (target-board appearance).", "Yellowing of surrounding tissue."],
+    "causes": ["Alternaria solani fungus.", "Warm, humid weather and stressed plants."],
+    "organicTreatment": ["Liquid copper fungicides.", "Bacillus subtilis-based biofungicides."],
+    "chemicalTreatment": ["Chlorothalonil or Mancozeb-based fungicides."],
+    "prevention": ["Crop rotation (do not plant tomatoes or potatoes in same spot).", "Adequate fertilization.", "Remove plant debris after harvest."]
+  },
+  "Potato___Late_blight": {
+    "symptoms": ["Irregular, water-soaked spots on leaves.", "White fungal growth on the undersides of leaves in humid conditions.", "Tubers develop brown, necrotic lesions."],
+    "causes": ["Phytophthora infestans water mold.", "Cool, wet, and highly humid weather."],
+    "organicTreatment": ["Copper-based fungicides applied early.", "Prompt removal and destruction of infected plants."],
+    "chemicalTreatment": ["Fungicides containing metalaxyl, chlorothalonil, or cymoxanil."],
+    "prevention": ["Plant resistant varieties.", "Destroy volunteer potatoes and cull piles.", "Ensure excellent soil drainage."]
+  },
+  "Potato___healthy": {
+    "symptoms": ["Leaves are uniformly green.", "Vigorous plant growth without lesions."],
+    "causes": ["Optimal environment and good soil health."],
+    "organicTreatment": ["Maintain regular schedule."],
+    "chemicalTreatment": ["Maintain regular schedule."],
+    "prevention": ["Consistent watering and crop monitoring."]
+  },
+  "Tomato_Bacterial_spot": {
+    "symptoms": ["Small, water-soaked, greasy spots on leaves.", "Spots turn black with a yellow halo.", "Fruit may develop scab-like spots."],
+    "causes": ["Xanthomonas vesicatoria bacteria."],
+    "organicTreatment": ["Copper fungicide.", "Prune infected leaves using sterilized tools."],
+    "chemicalTreatment": ["Copper and mancozeb tank mix."],
+    "prevention": ["Use pathogen-free seed.", "Avoid overhead irrigation.", "Rotate crops away from solanaceous plants."]
+  },
+  "Tomato_Early_blight": {
+    "symptoms": ["Dark, target-like spots with concentric rings on lower leaves.", "Lower leaves turn yellow and drop.", "Stem lesions may appear."],
+    "causes": ["Alternaria solani fungus."],
+    "organicTreatment": ["Copper fungicides.", "Bio-fungicides like Bacillus subtilis."],
+    "chemicalTreatment": ["Chlorothalonil, Mancozeb, or Azoxystrobin."],
+    "prevention": ["Stake or cage plants to keep foliage off the ground.", "Mulch to prevent soil splash.", "Proper crop rotation."]
+  },
+  "Tomato_Late_blight": {
+    "symptoms": ["Large, dark, water-soaked blotches on leaves and stems.", "White mold on the underside of leaves.", "Firm, dark brown lesions on fruit."],
+    "causes": ["Phytophthora infestans.", "Cool, wet conditions."],
+    "organicTreatment": ["Copper spray (preventative only)."],
+    "chemicalTreatment": ["Chlorothalonil or copper-based fungicides."],
+    "prevention": ["Destroy infected plants immediately.", "Ensure good airflow and spacing.", "Do not compost infected plants."]
+  },
+  "Tomato_Leaf_Mold": {
+    "symptoms": ["Pale greenish-yellow spots on upper leaf surfaces.", "Olive-green to brown velvety mold on lower leaf surfaces.", "Leaves wither and drop."],
+    "causes": ["Passalora fulva fungus.", "High relative humidity (above 85%) and poor airflow."],
+    "organicTreatment": ["Improve ventilation.", "Neem oil or potassium bicarbonate sprays."],
+    "chemicalTreatment": ["Fungicides containing chlorothalonil or copper."],
+    "prevention": ["Maximize airflow through pruning and wide spacing.", "Water at the base of the plant.", "Reduce greenhouse humidity."]
+  },
+  "Tomato_Septoria_leaf_spot": {
+    "symptoms": ["Numerous small, circular spots with dark borders and gray centers.", "Tiny black fruiting bodies in the center of spots.", "Lower leaves turn yellow, wither, and fall."],
+    "causes": ["Septoria lycopersici fungus."],
+    "organicTreatment": ["Copper-based fungicides or bio-fungicides."],
+    "chemicalTreatment": ["Chlorothalonil or Mancozeb sprays."],
+    "prevention": ["Remove lower leaves near the soil.", "Apply mulch to prevent soil splashing.", "Keep foliage dry."]
+  },
+  "Tomato_Spider_mites_Two_spotted_spider_mite": {
+    "symptoms": ["Leaves appear stippled, pale, or yellow.", "Fine, silky webbing on the undersides of leaves.", "Leaves may eventually turn brown and drop."],
+    "causes": ["Tetranychus urticae (spider mites).", "Hot, dry conditions."],
+    "organicTreatment": ["Neem oil or insecticidal soap.", "Introduce predatory mites (e.g., Phytoseiulus persimilis).", "Strong water spray to dislodge mites."],
+    "chemicalTreatment": ["Miticides or acaricides (e.g., spiromesifen)."],
+    "prevention": ["Keep plants well-watered (mites thrive in dry conditions).", "Regularly inspect undersides of leaves.", "Avoid broad-spectrum insecticides that kill natural predators."]
+  },
+  "Tomato__Target_Spot": {
+    "symptoms": ["Dark brown spots with concentric rings on leaves.", "Pitted, brown spots on fruit.", "Defoliation starting from the bottom."],
+    "causes": ["Corynespora cassiicola fungus."],
+    "organicTreatment": ["Copper fungicides.", "Remove infected lower leaves."],
+    "chemicalTreatment": ["Fungicides containing chlorothalonil or azoxystrobin."],
+    "prevention": ["Improve air circulation.", "Avoid overhead irrigation.", "Remove crop debris at the end of the season."]
+  },
+  "Tomato__Tomato_YellowLeaf__Curl_Virus": {
+    "symptoms": ["Severe stunting of the plant.", "Leaves cup upward, turning yellow between veins.", "Reduced fruit setting."],
+    "causes": ["Tomato yellow leaf curl virus (TYLCV), transmitted by whiteflies."],
+    "organicTreatment": ["Control whiteflies using neem oil or insecticidal soap.", "Reflective mulches to deter whiteflies."],
+    "chemicalTreatment": ["Insecticides targeting whiteflies (e.g., imidacloprid)."],
+    "prevention": ["Plant resistant or tolerant varieties.", "Use insect-exclusion netting.", "Manage weeds that host whiteflies."]
+  },
+  "Tomato__Tomato_mosaic_virus": {
+    "symptoms": ["Mottled light and dark green areas on leaves (mosaic pattern).", "Stunted growth and distorted leaves.", "Internal browning of fruit."],
+    "causes": ["Tobacco mosaic virus (TMV) or Tomato mosaic virus (ToMV).", "Mechanically transmitted via hands, tools, or contaminated seeds."],
+    "organicTreatment": ["Remove and destroy infected plants immediately.", "Wash hands and sterilize tools with milk or bleach."],
+    "chemicalTreatment": ["None available. Prevention is the only method."],
+    "prevention": ["Use certified virus-free seeds.", "Do not use tobacco products near plants.", "Thoroughly disinfect tools and hands."]
+  },
+  "Tomato_healthy": {
+    "symptoms": ["Green, vigorous foliage.", "Even growth without spotting or discoloration.", "Firm, blemish-free fruit development."],
+    "causes": ["Excellent growing environment and care."],
+    "organicTreatment": ["Maintain regular schedule."],
+    "chemicalTreatment": ["Maintain regular schedule."],
+    "prevention": ["Continue current agricultural practices."]
+  }
+}

@@ -65,37 +65,15 @@ def analyze_deal():
 def general_chat():
     data = request.get_json()
     message = data.get("message", "")
-    history = data.get("history", []) # List of dicts: [{"role": "user", "parts": "hi"}, ...]
-    language = data.get("language", "English")
-    user_role = data.get("role", "farmer")
-
-    # Strict system instruction to force behavior and language
-    system_instruction = f"You are GroWise AI, a helpful agricultural assistant. The user is a {user_role}. You MUST reply exclusively in {language}. Keep answers concise, strictly related to agriculture, farming, crops, weather, and market logistics."
-
-    # Reconstruct the conversation history for context
-    formatted_history = []
-    for msg in history:
-        # Map frontend roles to Gemini SDK roles ("user" or "model")
-        role = msg.get("role", "user")
-        parts = msg.get("parts", "")
-        formatted_history.append(
-            types.Content(role=role, parts=[types.Part.from_text(text=parts)])
-        )
-    
-    # Append the current message
-    formatted_history.append(
-        types.Content(role="user", parts=[types.Part.from_text(text=message)])
-    )
 
     try:
-        response = client.models.generate_content(
-            model='gemini-3.5-flash',
-            contents=formatted_history,
-            config=types.GenerateContentConfig(
-                system_instruction=system_instruction,
-            )
-        )
-        return jsonify({"success": True, "reply": response.text}), 200
+        from ai_engine import chatbot_engine
+        
+        # We only pass the current message to the search engine
+        # History is currently ignored for stateless semantic search
+        result = chatbot_engine.search(message)
+        
+        return jsonify({"success": True, "reply": result["answer"]}), 200
     except Exception as e:
         print(f"AI Chat Error: {traceback.format_exc()}")
-        return jsonify({"success": False, "error": "Unable to reach AI right now."}), 500
+        return jsonify({"success": False, "error": "Unable to reach offline AI right now."}), 500

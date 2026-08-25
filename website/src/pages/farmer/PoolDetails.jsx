@@ -11,6 +11,8 @@ import 'leaflet/dist/leaflet.css';
 import apiClient from '../../utils/apiClient';
 import { formatCurrency } from '../../utils/constants';
 import UserAvatar from '../../components/common/UserAvatar';
+import notify from '../../services/NotificationService';
+
 
 // Fix leaflet default icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -114,7 +116,7 @@ const PoolDetails = () => {
       const res = await apiClient.post('/api/logistics/delete-pool', { orderId: poolId, email: user?.email });
       if (res.data.success) navigate(-1);
     } catch (e) {
-      alert("Network Error");
+      notify.error("Network Error");
     }
   };
 
@@ -122,12 +124,12 @@ const PoolDetails = () => {
     try {
       const res = await apiClient.post('/api/orders/cancel_order', { orderId: poolId });
       if (res.data.success) {
-        alert("Pool Cancelled & Escrow Refunded");
+        notify.info("Pool Cancelled & Escrow Refunded");
       } else {
-        alert("Failed to cancel.");
+        notify.error("Failed to cancel.");
       }
     } catch (e) {
-      alert("Cannot cancel: Funds locked.");
+      notify.error("Cannot cancel: Funds locked.");
     }
   };
 

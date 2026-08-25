@@ -4,6 +4,8 @@ import apiClient from '../../utils/apiClient';
 import gsap from 'gsap';
 import Logo from '../../components/Logo';
 import { Phone, Edit3, X, Save, Camera, ShieldCheck, Mail } from 'lucide-react';
+import notify from '../../services/NotificationService';
+
 
 const AgriLoadingSpinner = () => (
   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1.5s linear infinite' }}>
@@ -87,7 +89,7 @@ const Profile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error("Save failed", error);
-      alert("Failed to update profile.");
+      notify.error("Failed to update profile.");
     } finally {
       setIsSaving(false);
     }

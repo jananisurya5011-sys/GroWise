@@ -11,6 +11,8 @@ import UserAvatar from '../../components/common/UserAvatar';
 import AgriLoading from '../../components/common/AgriLoading';
 import apiClient from '../../utils/apiClient';
 import { ACTIVE_DRIVER_STATUSES } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 // Icons
 const leafSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`;
@@ -176,12 +178,12 @@ const DriverStandardDelivery = () => {
         reason: 'TIMEOUT'
       });
       if (res.data.success) {
-        alert("Pickup timeout expired. Order cancelled securely.");
+        notify.info("Pickup timeout expired. Order cancelled securely.");
         navigate('/home/driver');
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to process timeout.");
+      notify.error("Failed to process timeout.");
     }
     setIsProcessing(false);
   };
@@ -200,7 +202,7 @@ const DriverStandardDelivery = () => {
       setOtpValues(['', '', '', '']);
       setShowOtpModal(true);
     } catch (e) {
-      alert("Failed to register arrival");
+      notify.error("Failed to register arrival");
     }
     setIsProcessing(false);
   };
@@ -234,14 +236,14 @@ const DriverStandardDelivery = () => {
         setShowOtpModal(false);
         // The backend computes if delivery is fully completed
         if (res.data.message === "Delivery completed successfully.") {
-          alert("Delivery completed! Earnings added to wallet.");
+          notify.success("Delivery completed! Earnings added to wallet.");
           navigate('/home/driver');
         }
       } else {
-        alert(res.data.error || "Invalid OTP");
+        notify.error(res.data.error || "Invalid OTP");
       }
     } catch (e) {
-      alert(e.response?.data?.error || "Network Error Verifying OTP");
+      notify.error(e.response?.data?.error || "Network Error Verifying OTP");
     }
     setIsProcessing(false);
   };

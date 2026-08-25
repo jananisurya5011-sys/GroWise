@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import apiClient from '../../utils/apiClient';
 import gsap from 'gsap';
 import { ArrowLeft, User, Phone, CreditCard, Truck, CheckCircle2, XCircle, FileText, Loader2 } from 'lucide-react';
+import notify from '../../services/NotificationService';
+
 
 const AdminDriverDetails = () => {
   const { email } = useParams();
@@ -56,7 +58,7 @@ const AdminDriverDetails = () => {
 
   const handleAction = async (action) => {
     if (action === 'REJECT' && !rejectionReason.trim()) {
-      alert("Please provide a reason for rejection.");
+      notify.warning("Please provide a reason for rejection.");
       return;
     }
     
@@ -75,13 +77,13 @@ const AdminDriverDetails = () => {
         if (action === 'APPROVE') {
           setApprovalResult(data.message); // e.g., "Approved. ID: GW-D1234"
         } else {
-          alert(data.message);
+          notify.info(data.message);
           navigate('/admin/verify');
         }
       }
     } catch (error) {
       console.error(`Verification ${action} failed`, error);
-      alert("An error occurred during verification.");
+      notify.error("An error occurred during verification.");
       setIsProcessing(false);
       setShowRejectModal(false);
     } 

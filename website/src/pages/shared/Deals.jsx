@@ -9,6 +9,8 @@ import { motion } from 'framer-motion';
 import { DealRequestCard, LogisticsChoiceCard, AudioMessageCard, SystemMessageCard, DonationOrderCard } from '../../components/chat/MessageCards';
 import { useDealEngine } from '../../hooks/useDealEngine';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 // ─── Color constants (matching Android: TerracottaPrimary, GoldenYellow, PeachBackground) ───
 const C = {
@@ -108,7 +110,7 @@ const FullScreenPayment = ({ pendingInvoice, farmerEmail, chatId, onComplete }) 
                 }, 1500);
               } catch (err) { 
                 console.error('Payment flow error', err); 
-                alert("Payment Failed: " + (err.response?.data?.error || err.message));
+                notify.error("Payment Failed: " + (err.response?.data?.error || err.message));
                 onComplete(); 
               }
             }, 1200);
@@ -579,7 +581,7 @@ const ReceiptCard = ({ msg, isFarmer }) => {
                     onClick={() => {
                       navigator.clipboard.writeText(msg.pickupOtp);
                       // Fallback toast if needed (simplified)
-                      alert("OTP Copied!");
+                      notify.success("OTP Copied!");
                     }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D4AF37' }}
                     title="Copy Pickup OTP"
@@ -602,7 +604,7 @@ const ReceiptCard = ({ msg, isFarmer }) => {
                   <button 
                     onClick={() => {
                       navigator.clipboard.writeText(msg.dropOtp);
-                      alert("OTP Copied!");
+                      notify.success("OTP Copied!");
                     }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2E7D32' }}
                     title="Copy Drop OTP"
@@ -1064,7 +1066,7 @@ const Deals = () => {
       }
     } catch (e) {
       console.error("Failed to calculate fare from logistics API:", e);
-      alert("Failed to calculate logistics fare. Invoice generation aborted.");
+      notify.error("Failed to calculate logistics fare. Invoice generation aborted.");
       throw e;
     }
     
@@ -1115,7 +1117,7 @@ const Deals = () => {
           setShowLocationForm(false);
           setLocAddress(''); setLocLat(''); setLocLng('');
         } catch (e) {
-          alert('Failed to set pickup location');
+          notify.error('Failed to set pickup location');
         }
       } else {
         try {
@@ -1145,7 +1147,7 @@ const Deals = () => {
           setShowLocationForm(false);
           setLocAddress(''); setLocLat(''); setLocLng('');
         } catch (e) {
-          alert(e.response?.data?.error || e.response?.data?.message || 'Failed to select GroWise Delivery');
+          notify.error(e.response?.data?.error || e.response?.data?.message || 'Failed to select GroWise Delivery');
         }
       }
       return;
@@ -1180,7 +1182,7 @@ const Deals = () => {
       try {
         await apiClient.post('/api/orders/accept-donation', { orderId: msg.orderId || msg.id, farmerEmail: user?.email });
       } catch (err) {
-        alert(err.response?.data?.error || 'Failed to accept donation');
+        notify.error(err.response?.data?.error || 'Failed to accept donation');
       }
       return;
     }
@@ -1197,7 +1199,7 @@ const Deals = () => {
     try {
       await apiClient.post('/api/orders/reject-donation', { orderId: msg.orderId || msg.id, farmerEmail: user?.email });
     } catch (err) {
-      alert(err.response?.data?.error || 'Failed to decline donation');
+      notify.error(err.response?.data?.error || 'Failed to decline donation');
     }
   };
   
@@ -1213,7 +1215,7 @@ const Deals = () => {
   };
 
   const handleSubmitCounter = async () => {
-    if (!counterPrice || isNaN(counterPrice)) { alert('Enter a valid price'); return; }
+    if (!counterPrice || isNaN(counterPrice)) { notify.info('Enter a valid price'); return; }
     try {
       await addDoc(collection(db, 'chats', activeChatId, 'messages'), {
         senderId: user?.email, receiverId: activeChatEmail, type: 'COUNTER_CARD',
@@ -1230,7 +1232,7 @@ const Deals = () => {
       setShowCounterForm(false);
       setCounterReason('');
     } catch (error) {
-      alert('Failed to send counter offer. Please try again.');
+      notify.error('Failed to send counter offer. Please try again.');
     }
   };
 
@@ -1254,10 +1256,10 @@ const Deals = () => {
             setLocAddress(`Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)} (GPS)`);
           }
         },
-        () => alert('Unable to fetch current location.')
+        () => notify.error('Unable to fetch current location.')
       );
     } else {
-      alert('Unable to fetch current location.');
+      notify.error('Unable to fetch current location.');
     }
   };
 
@@ -1293,7 +1295,7 @@ const Deals = () => {
             distanceKm: 0
           });
         } catch (e) {
-          alert(e.response?.data?.error || 'Failed to select Self Service');
+          notify.error(e.response?.data?.error || 'Failed to select Self Service');
         }
       } else {
         handleOpenLocation(msg);

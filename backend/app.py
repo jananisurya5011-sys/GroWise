@@ -139,6 +139,23 @@ def get_weather():
 
 if __name__ == '__main__':
     print("Starting GroWise Secure Backend Server Context...")
+
+if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     # Initialize the automated background scheduler right before launching the server
     start_scheduler()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    # Initialize the Offline Semantic Search Chatbot Model
+    from ai_engine import model_loader
+    try:
+        model_loader.initialize()
+    except Exception as e:
+        print(f"Failed to initialize Chatbot Engine: {e}")
+
+    # Initialize the Disease Classification AI Engine
+    try:
+        from ai_engine import disease_model_loader
+        disease_model_loader.initialize()
+    except Exception as e:
+        print(f"Failed to initialize Disease Engine: {e}")
+
+app.run(debug=True, host="0.0.0.0", port=5000)

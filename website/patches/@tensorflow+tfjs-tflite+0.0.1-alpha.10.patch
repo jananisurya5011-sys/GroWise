@@ -1,0 +1,104 @@
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_model.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_model.js
+index a752f72..fbe1b63 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_model.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_model.js
+@@ -15,7 +15,7 @@
+  * =============================================================================
+  */
+ import { tensor, Tensor } from '@tensorflow/tfjs-core';
+-import * as tfliteWebAPIClient from './tflite_web_api_client';
++import * as tfliteWebAPIClient from '../wasm/tflite_web_api_client.js';
+ const TFHUB_SEARCH_PARAM = '?lite-format=tflite';
+ /**
+  * A `tflite.TFLiteModel` is built from a TFLite model flatbuffer and executable
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_nl_classifier.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_nl_classifier.js
+index 71868df..ff9ecca 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_nl_classifier.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_nl_classifier.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient } from './common';
+ /**
+  * Client for BertNLClassifier TFLite Task Library.
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_qa.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_qa.js
+index 7323728..16f986e 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_qa.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/bert_qa.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient } from './common';
+ /**
+  * Client for BertQA TFLite Task Library.
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/common.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/common.js
+index 14d730f..f5bba64 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/common.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/common.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ /** Convert proto Class array to our own Class array. */
+ export function convertProtoClassesToClasses(protoClasses) {
+     const classes = [];
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_classifier.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_classifier.js
+index 266d49d..2a8fc81 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_classifier.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_classifier.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient, convertProtoClassesToClasses, getDefaultNumThreads } from './common';
+ /**
+  * Client for ImageClassifier TFLite Task Library.
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_segmenter.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_segmenter.js
+index a050848..98a13a9 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_segmenter.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/image_segmenter.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient, getDefaultNumThreads } from './common';
+ /** Different output types. */
+ export var OutputType;
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/nl_classifier.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/nl_classifier.js
+index 4e0b8c0..4378633 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/nl_classifier.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/nl_classifier.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient } from './common';
+ /**
+  * Default NLClassifier options.
+diff --git a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/object_detector.js b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/object_detector.js
+index b047173..7fda867 100644
+--- a/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/object_detector.js
++++ b/node_modules/@tensorflow/tfjs-tflite/dist/tflite_task_library_client/object_detector.js
+@@ -14,7 +14,7 @@
+  * limitations under the License.
+  * =============================================================================
+  */
+-import * as tfliteWebAPIClient from '../tflite_web_api_client';
++import * as tfliteWebAPIClient from '../../wasm/tflite_web_api_client.js';
+ import { BaseTaskLibraryClient, convertProtoClassesToClasses, getDefaultNumThreads } from './common';
+ /**
+  * Client for ObjectDetector TFLite Task Library.

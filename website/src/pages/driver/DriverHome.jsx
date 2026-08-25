@@ -11,6 +11,8 @@ import AgriLoading from '../../components/common/AgriLoading';
 import { Settings, RefreshCw, Car } from 'lucide-react';
 
 import { ACTIVE_DRIVER_STATUSES } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 const DriverHome = () => {
   const { user } = useAuth();
@@ -117,7 +119,7 @@ const DriverHome = () => {
       }
     } catch (error) {
       console.error("Failed to fetch loads:", error);
-      alert("Failed to fetch available loads");
+      notify.error("Failed to fetch available loads");
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -145,7 +147,7 @@ const DriverHome = () => {
   // Actions
   const handleAccept = async (order) => {
     if (activeOrder) {
-      alert("You already have an active trip!");
+      notify.info("You already have an active trip!");
       return;
     }
     
@@ -170,7 +172,7 @@ const DriverHome = () => {
       }
     } catch (error) {
       console.error("Failed to accept:", error);
-      alert(error.response?.data?.error || error.message || "Failed to accept order. It may have been taken.");
+      notify.error(error.response?.data?.error || error.message || "Failed to accept order. It may have been taken.");
     }
   };
 
@@ -183,7 +185,7 @@ const DriverHome = () => {
       });
     } catch (error) {
       console.error("Failed to decline:", error);
-      alert("Failed to update preferences");
+      notify.error("Failed to update preferences");
       fetchLoads(); // Revert on failure
     }
   };
@@ -200,12 +202,12 @@ const DriverHome = () => {
         driverProfilePic: null,
         status: 'PENDING_DRIVER'
       });
-      alert("Active order cancelled (Dev Mode)");
+      notify.info("Active order cancelled (Dev Mode)");
       setActiveOrder(null);
       fetchLoads();
     } catch (error) {
       console.error("Failed to decline active order:", error);
-      alert("Failed to decline active order");
+      notify.error("Failed to decline active order");
     }
   };
 

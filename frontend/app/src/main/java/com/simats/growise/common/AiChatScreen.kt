@@ -40,11 +40,6 @@ fun AiChatScreen(navController: NavController, userEmail: String, role: String) 
     var chatHistory by remember { mutableStateOf(listOf<AiHistoryMessage>()) }
     var isLoading by remember { mutableStateOf(false) }
 
-    // Language Dropdown State
-    val languages = listOf("English", "Tamil", "Hindi", "Telugu", "Kannada", "Malayalam")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedLanguage by remember { mutableStateOf(languages[0]) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -62,47 +57,7 @@ fun AiChatScreen(navController: NavController, userEmail: String, role: String) 
                     }
                 },
                 actions = {
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selectedLanguage,
-                            onValueChange = {},
-                            readOnly = true,
-                            modifier = Modifier
-                                .menuAnchor()
-                                .width(135.dp)
-                                .padding(end = 16.dp)
-                                .height(50.dp),
-                            textStyle = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold, color = TerracottaPrimary),
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                            },
-                            shape = RoundedCornerShape(16.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedContainerColor = Color.White,
-                                unfocusedContainerColor = Color.White,
-                                focusedBorderColor = GoldenYellow,
-                                unfocusedBorderColor = Color.LightGray
-                            )
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false },
-                            modifier = Modifier.background(Color.White)
-                        ) {
-                            languages.forEach { selectionOption ->
-                                DropdownMenuItem(
-                                    text = { Text(selectionOption, color = TextDark, fontWeight = FontWeight.Medium) },
-                                    onClick = {
-                                        selectedLanguage = selectionOption
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
+                    // Language dropdown removed as part of local model migration
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = PeachBackground)
             )
@@ -195,7 +150,6 @@ fun AiChatScreen(navController: NavController, userEmail: String, role: String) 
                                     val request = AiChatRequest(
                                         message = userMsg,
                                         history = historyToPass,
-                                        language = selectedLanguage,
                                         role = role
                                     )
                                     val response = RetrofitClient.apiService.sendAiChatMessage(request)

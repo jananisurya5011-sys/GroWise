@@ -4,6 +4,8 @@ import apiClient from '../../utils/apiClient';
 import gsap from 'gsap';
 import Logo from '../../components/Logo';
 import { Phone, Truck, CreditCard, Edit3, X, Save, Camera, MapPin, CheckCircle2, AlertCircle, FileText, Lock } from 'lucide-react';
+import notify from '../../services/NotificationService';
+
 
 const AgriLoadingSpinner = () => (
   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1.5s linear infinite' }}>
@@ -86,7 +88,7 @@ const Profile = () => {
     e.preventDefault();
     
     if (!selectedFile) {
-      alert("Please select a new profile photo before saving.");
+      notify.warning("Please select a new profile photo before saving.");
       return;
     }
     
@@ -102,7 +104,7 @@ const Profile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error("Save failed", error);
-      alert("Failed to update profile.");
+      notify.error("Failed to update profile.");
     } finally {
       setIsSaving(false);
     }

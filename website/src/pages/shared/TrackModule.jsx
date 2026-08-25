@@ -7,6 +7,8 @@ import { Truck, Wallet as WalletIcon, History, Search, MapPin, Navigation, Packa
 import UserAvatar from '../../components/common/UserAvatar';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatCurrency, getOrderType } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+
 
 const C = {
   terracotta: '#7C3D12',
@@ -501,7 +503,7 @@ const WalletSection = ({ userEmail }) => {
     const amt = parseFloat(amountInput);
     if (isNaN(amt) || amt <= 0) return;
     if (modal === 'WITHDRAW' && amt > balance) {
-      alert("Insufficient balance to withdraw!");
+      notify.info("Insufficient balance to withdraw!");
       return;
     }
     setProcessing(true);
@@ -523,7 +525,7 @@ const WalletSection = ({ userEmail }) => {
       setAmountInput('');
     } catch (e) {
       console.error(e);
-      alert("Transaction failed");
+      notify.error("Transaction failed");
     } finally {
       setProcessing(false);
     }

@@ -4,6 +4,8 @@ import apiClient from '../../utils/apiClient';
 import { useAuth } from '../../contexts/AuthContext';
 import gsap from 'gsap';
 import { Sprout, ArrowLeft, CheckCircle2, Circle, Loader2, Calendar } from 'lucide-react';
+import notify from '../../services/NotificationService';
+
 
 const FarmerSmartCultivation = () => {
   const navigate = useNavigate();
@@ -48,11 +50,11 @@ const FarmerSmartCultivation = () => {
         setPlantName('');
         fetchActiveCrops(); // Refresh list to show new plan
       } else {
-        alert(data.error || "Failed to generate plan.");
+        notify.error(data.error || "Failed to generate plan.");
       }
     } catch (error) {
       console.error(error);
-      alert("Error generating cultivation plan.");
+      notify.error("Error generating cultivation plan.");
     } finally {
       setIsGenerating(false);
     }

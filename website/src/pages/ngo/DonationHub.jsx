@@ -7,6 +7,8 @@ import { collection, doc, addDoc, setDoc } from 'firebase/firestore';
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, MapPin, Package, ArrowLeft, CheckCircle, Clock, X, Loader2 } from 'lucide-react';
+import notify from '../../services/NotificationService';
+
 
 const DonationHub = () => {
   const navigate = useNavigate();
@@ -43,13 +45,13 @@ const DonationHub = () => {
 
   const submitDonationRequest = async () => {
     if (!requestQty || parseFloat(requestQty) <= 0) {
-      alert("Please enter a valid quantity.");
+      notify.warning("Please enter a valid quantity.");
       return;
     }
     
     const qty = parseFloat(requestQty);
     if (qty <= 0 || qty > activeDonation.availableKg) {
-      alert("Invalid quantity requested.");
+      notify.error("Invalid quantity requested.");
       return;
     }
     
@@ -68,7 +70,7 @@ const DonationHub = () => {
       
       const res = await apiClient.post('/api/orders/request-donation', payload);
       if (!res.data.success) {
-        alert("Failed: " + res.data.error);
+        notify.error("Failed: " + res.data.error);
         setIsSubmitting(false);
         return;
       }
@@ -77,7 +79,7 @@ const DonationHub = () => {
       setActiveDonation(null);
       navigate(`/deals/${chatId}`);
     } catch (e) {
-      alert("Failed to send donation request: " + (e.response?.data?.error || e.message));
+      notify.error("Failed to send donation request: " + (e.response?.data?.error || e.message));
       console.error(e);
     } finally {
       setIsSubmitting(false);
@@ -89,7 +91,7 @@ const DonationHub = () => {
       await apiClient.post('/api/inventory/reject-ngo', { itemId, ngoEmail: user.email });
       setItems(items.filter(i => i.id !== itemId));
     } catch (e) {
-      alert("Error rejecting item");
+      notify.error("Error rejecting item");
     }
   };
 

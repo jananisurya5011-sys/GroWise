@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../../utils/apiClient';
 import { useAuth } from '../../contexts/AuthContext';
-import { ArrowLeft, UploadCloud, Package, Loader2, Heart, Clock, CheckCircle } from 'lucide-react';
+import { ArrowLeft, UploadCloud, Package, Loader2, Heart, Clock, CheckCircle, Info, AlertTriangle, Truck } from 'lucide-react';
 import gsap from 'gsap';
 import { formatCurrency } from '../../utils/constants';
+import notify from '../../services/NotificationService';
+import { confirmDialog } from '../../components/common/ConfirmationDialog';
+
 
 const getImageUrl = (dbImageString, type = 'inventory') => {
   if (!dbImageString) return '';
@@ -90,7 +93,7 @@ const FarmerListProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.cropName || !formData.pricePerKg || !formData.availableKg) {
-      alert("Please fill in required fields.");
+      notify.warning("Please fill in required fields.");
       return;
     }
 
@@ -110,24 +113,29 @@ const FarmerListProduct = () => {
       const data = await response.json();
       
       if (data.success) {
-        alert("Product listed successfully!");
+        notify.success("Product listed successfully!");
         setFormData({ ...formData, cropName: '', pricePerKg: '', availableKg: '', moq: '' });
         setSelectedFile(null);
         setPreviewUrl(null);
         setActiveTab('manage');
       } else {
-        alert(data.message || "Failed to list product.");
+        notify.error(data.message || "Failed to list product.");
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("Network error.");
+      notify.error("Network error.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const donateToNGO = async (itemId) => {
-    if (!window.confirm("Donate this batch to NGOs? It will be removed from your sellable inventory.")) return;
+    const isConfirmed = await confirmDialog(
+      "Confirm Donation", 
+      "Donate this batch to NGOs? It will be removed from your sellable inventory."
+    );
+    if (!isConfirmed) return;
+    
     try {
       const response = await fetch('/api/ngo/donate-item', {
         method: 'POST',
@@ -136,7 +144,7 @@ const FarmerListProduct = () => {
       });
       const data = await response.json();
       if (data.success) {
-        alert("Successfully marked for NGO Donation.");
+        notify.success("Successfully marked for NGO Donation.");
         fetchInventory();
       }
     } catch (error) {

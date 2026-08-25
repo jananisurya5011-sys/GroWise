@@ -5,6 +5,10 @@ import apiClient from '../../utils/apiClient';
 import { useAuth } from '../../contexts/AuthContext';
 import gsap from 'gsap';
 import { CloudRain, Sun, Navigation, Stethoscope, Package, Tractor, Sprout, Image as ImageIcon, ChevronRight, X, Truck } from 'lucide-react';
+import DiagnosisHistoryCard from '../../components/diagnosis/DiagnosisHistoryCard';
+import DiagnosisResultCard from '../../components/diagnosis/DiagnosisResultCard';
+import notify from '../../services/NotificationService';
+
 
 const PrimaryCard = ({ title, subtitle, icon, color, onClick }) => (
   <div 
@@ -74,20 +78,20 @@ const FarmerHome = () => {
             setWeatherData(data);
             navigate('/farmer/weather', { state: { weatherData: data } });
           } else {
-            alert("Weather data unavailable.");
+            notify.warning("Weather data unavailable.");
           }
         } catch (error) {
           console.error(error);
-          alert("Error fetching weather.");
+          notify.error("Error fetching weather.");
         } finally {
           setIsLocating(false);
         }
       }, (error) => {
-        alert("Please enable GPS permissions to fetch live weather data.");
+        notify.warning("Please enable GPS permissions to fetch live weather data.");
         setIsLocating(false);
       });
     } else {
-      alert("Geolocation is not supported by this browser.");
+      notify.info("Geolocation is not supported by this browser.");
       setIsLocating(false);
     }
   };
@@ -126,9 +130,14 @@ const FarmerHome = () => {
       {/* 2. Primary Action Cards Grid */}
       <section style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap' }}>
         <PrimaryCard 
-          title="Diagnose" subtitle="AI Crop Doctor" 
+          title="Diagnose" subtitle="Offline ML" 
           icon={<Stethoscope size={24} color="#10b981" />} color="#10b981" 
           onClick={() => navigate('/farmer/diagnose')} 
+        />
+        <PrimaryCard 
+          title="AI Diagnosis" subtitle="Keras API" 
+          icon={<Stethoscope size={24} color="#8b5cf6" />} color="#8b5cf6" 
+          onClick={() => navigate('/farmer/ai-diagnose')} 
         />
         <PrimaryCard 
           title="List Product" subtitle="Sell & Track" 
@@ -201,58 +210,50 @@ const FarmerHome = () => {
               No saved diagnostics yet.
             </div>
           ) : (
-            diagnosticsHistory.map((item, idx) => {
-              // Extract filename from the local path stored in DB (e.g., 'uploads\crop\crop_img_123.jpg')
-              const filename = item.imagePath ? item.imagePath.split(/[\/\\]/).pop() : null;
-              const imgUrl = filename ? `/api/crop-doctor/serve-image/${filename}` : null;
-
-              return (
-                <div key={idx} style={{ minWidth: '260px', maxWidth: '260px', backgroundColor: '#fdfbfb', borderRadius: '16px', padding: '16px', border: '1px solid #eee', boxShadow: '0 4px 12px rgba(0,0,0,0.04)' }}>
-                  <div style={{ width: '100%', height: '140px', backgroundColor: '#eee', borderRadius: '12px', marginBottom: '12px', overflow: 'hidden', position: 'relative' }}>
-                    {imgUrl ? <img src={imgUrl} alt="Crop" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <ImageIcon size={24} color="#ccc" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}
-                    <div style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(0,0,0,0.6)', color: '#fff', fontSize: '10px', padding: '4px 8px', borderRadius: '12px', fontWeight: 700 }}>
-                      {new Date(item.date).toLocaleDateString()}
-                    </div>
-                  </div>
-                  <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 800, color: 'var(--terracotta-primary)' }}>{item.disease || 'Unknown'}</h4>
-                  
-                  <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-                    <button 
-                      onClick={() => setSelectedDiagnosis(item)}
-                      style={{ flex: 1, padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', border: '1px solid #eee', backgroundColor: '#fff', borderRadius: '8px', fontSize: '12px', fontWeight: 600, color: '#333', cursor: 'pointer' }}
-                    >
-                      View Full Diagnosis
-                    </button>
-                  </div>
-                  
-                  <p style={{ margin: 0, fontSize: '13px', color: '#555', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {item.remedy || 'Maintain standard care.'}
-                  </p>
-                </div>
-              );
-            })
+            diagnosticsHistory.map((item, idx) => (
+              <DiagnosisHistoryCard 
+                key={item.id || idx}
+                item={item}
+                onClick={setSelectedDiagnosis}
+                onDelete={async (deletedItem) => {
+                  if (!deletedItem.id) return;
+                  try {
+                    const res = await apiClient.delete(`/api/crop-doctor/history/${deletedItem.id}?email=${encodeURIComponent(user.email)}`);
+                    if (res.data.success) {
+                      setDiagnosticsHistory(prev => prev.filter(h => h.id !== deletedItem.id));
+                    } else {
+                      notify.error("Failed to delete diagnosis.");
+                    }
+                  } catch (e) {
+                    notify.error("Error deleting diagnosis.");
+                  }
+                }}
+              />
+            ))
           )}
         </div>
       </section>
 
       {/* 5. Diagnosis Full View Modal */}
       {selectedDiagnosis && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '24px', width: '100%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto', position: 'relative', padding: '32px', boxShadow: '0 24px 48px rgba(0,0,0,0.2)' }}>
-            <button onClick={handleCloseModal} style={{ position: 'absolute', top: '16px', right: '16px', background: '#ef4444', border: 'none', borderRadius: '50%', width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)', zIndex: 10 }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', overflowY: 'auto' }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: '800px', margin: 'auto' }}>
+            <button 
+              onClick={handleCloseModal} 
+              style={{ position: 'absolute', top: '16px', right: '16px', background: '#ef4444', border: 'none', borderRadius: '50%', width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)', zIndex: 10 }}
+            >
               <X size={28} color="#fff" />
             </button>
-            <h2 style={{ margin: '0 0 16px 0', fontSize: '24px', fontWeight: 800, color: 'var(--terracotta-primary)', paddingRight: '32px' }}>
-              {selectedDiagnosis.disease || 'Unknown Disease'}
-            </h2>
+            <DiagnosisResultCard 
+              result={selectedDiagnosis.diagnosisType === 'ai' ? selectedDiagnosis.details : selectedDiagnosis} 
+              diagnosisType={selectedDiagnosis.diagnosisType}
+              mode="history"
+            />
             {selectedDiagnosis.imagePath && (
-              <div style={{ width: '100%', height: '240px', borderRadius: '16px', overflow: 'hidden', marginBottom: '24px', backgroundColor: '#eee' }}>
-                <img src={`/api/crop-doctor/serve-image/${selectedDiagnosis.imagePath.split(/[\/\\]/).pop()}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Crop Issue" />
+              <div style={{ width: '100%', height: '300px', borderRadius: '24px', overflow: 'hidden', marginTop: '24px', backgroundColor: '#eee', boxShadow: '0 12px 48px rgba(0,0,0,0.04)', border: '1px solid #eee' }}>
+                 <img src={`/api/crop-doctor/serve-image/${selectedDiagnosis.imagePath.split(/[/\\]/).pop()}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Crop Issue" />
               </div>
             )}
-            <div style={{ padding: '20px', backgroundColor: '#fdfbfb', borderRadius: '16px', border: '1px solid #eee', whiteSpace: 'pre-wrap', fontSize: '15px', color: '#444', lineHeight: 1.6 }}>
-              {selectedDiagnosis.remedy}
-            </div>
           </div>
         </div>
       )}
